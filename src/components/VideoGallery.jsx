@@ -3,11 +3,6 @@ import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Sparkles, Award, Users } from 'lucide-react';
 
-// Import your videos here
-import video01 from '../assets/furnitureVideo-01.mp4';
-import video02 from '../assets/furnitureVideo-02.mp4';
-
-// Animation hook for scroll-triggered animations
 const useScrollAnimation = () => {
   const controls = useAnimation();
   const [ref, inView] = useInView({
@@ -32,13 +27,13 @@ const VideoGallery = () => {
       id: '01',
       title: 'Master Craftsmanship',
       subtitle: 'Handcrafted Excellence',
-      src: video01,
+      thumbnail: 'https://images.unsplash.com/photo-1556912167-f556f1f39faa?w=800&h=600&fit=crop',
     },
     {
       id: '02',
       title: 'Quality Materials',
       subtitle: 'Premium Selection',
-      src: video02,
+      thumbnail: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800&h=600&fit=crop',
     },
   ];
 
@@ -57,7 +52,7 @@ const VideoGallery = () => {
         hidden: { opacity: 0, y: 50 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
       }}
-      className="py-24  from-slate-50 to-gray-100 overflow-hidden relative"
+      className="py-24 bg-linear-to-b from-slate-50 to-gray-100 overflow-hidden relative"
     >
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl" />
@@ -95,7 +90,7 @@ const VideoGallery = () => {
           </motion.p>
         </div>
 
-        {/* Video Grid - Modern E-commerce Style */}
+        {/* Video Grid */}
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16">
           {videos.map((video, index) => (
             <motion.div
@@ -108,18 +103,14 @@ const VideoGallery = () => {
             >
               {/* Video Container */}
               <div className="relative aspect-video overflow-hidden">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
+                <img
+                  src={video.thumbnail}
+                  alt={video.title}
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                >
-                  <source src={video.src} type="video/mp4" />
-                </video>
+                />
                 
-                {/* Subtle Overlay */}
-                <div className="absolute inset-0  from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 {/* Badge */}
                 <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
@@ -140,30 +131,19 @@ const VideoGallery = () => {
                 <div className="flex items-center gap-4 text-xs text-gray-500">
                   <div className="flex items-center gap-1">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                    <span>Auto-play enabled</span>
+                    <span>HD Quality</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                    <span>HD Quality</span>
+                    <span>Behind the Scenes</span>
                   </div>
                 </div>
               </div>
-
-              {/* Hover Action Bar */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                className="absolute bottom-0 left-0 right-0 p-6 from-white via-white to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"
-              >
-                <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg transition-colors">
-                  Learn More
-                </button>
-              </motion.div>
             </motion.div>
           ))}
         </div>
 
-        {/* Stats Section - Modern Cards */}
+        {/* Stats Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -191,23 +171,6 @@ const VideoGallery = () => {
               </motion.div>
             );
           })}
-        </motion.div>
-
-        {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-gray-900 hover:bg-gray-800 text-white font-bold px-10 py-4 rounded-full transition-colors shadow-xl"
-          >
-            Explore Full Collection
-          </motion.button>
         </motion.div>
       </div>
     </motion.section>
