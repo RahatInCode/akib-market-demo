@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, Shield } from 'lucide-react';
 
 const Cart = ({ cart, updateQuantity, removeFromCart }) => {

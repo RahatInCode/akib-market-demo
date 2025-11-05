@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, X, Grid, List, ArrowUpDown, Package, Check, Clock } from 'lucide-react';
 import { mockProducts } from '../data/mockProducts';
@@ -18,6 +18,18 @@ const ProductsPage = ({ addToCart }) => {
   const [viewMode, setViewMode] = useState('grid');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isSidebarOpen]);
 
   const categories = ['All', 'Living Room', 'Bedroom', 'Dining Room', 'Office'];
 
@@ -66,87 +78,168 @@ const ProductsPage = ({ addToCart }) => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="flex gap-8">
-          {/* Sidebar */}
-          <AnimatePresence>
-            {(isSidebarOpen || window.innerWidth >= 1024) && (
-              <motion.div
-                initial={{ x: -300 }}
-                animate={{ x: 0 }}
-                exit={{ x: -300 }}
-                className="fixed lg:sticky top-24 left-0 h-screen lg:h-auto w-80 bg-white shadow-xl lg:shadow-none z-50 overflow-y-auto p-6"
-              >
-                <div className="flex justify-between items-center mb-6 lg:hidden">
-                  <h3 className="font-bold text-xl">Filters</h3>
-                  <button onClick={() => setIsSidebarOpen(false)}><X size={24} /></button>
+        <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-8">
+          {/* Desktop Sidebar */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24 bg-white rounded-lg shadow-sm p-6 max-h-[calc(100vh-120px)] overflow-y-auto">
+              {/* Search */}
+              <div className="mb-6">
+                <label className="block text-sm font-semibold mb-2">Search</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={filters.search}
+                    onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                    className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500"
+                  />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                 </div>
+              </div>
 
-                {/* Search */}
-                <div className="mb-6">
-                  <label className="block text-sm font-semibold mb-2">Search</label>
-                  <div className="relative">
+              {/* Status */}
+              <div className="mb-6">
+                <h4 className="font-semibold mb-3">Availability</h4>
+                {[
+                  { value: 'all', label: 'All Products' },
+                  { value: 'available', label: 'Available Now' },
+                  { value: 'preorder', label: 'Pre-Order' },
+                ].map((status) => (
+                  <label key={status.value} className="flex items-center mb-2 cursor-pointer">
                     <input
-                      type="text"
-                      placeholder="Search products..."
-                      value={filters.search}
-                      onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                      className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500"
+                      type="radio"
+                      checked={filters.status === status.value}
+                      onChange={() => setFilters({ ...filters, status: status.value })}
+                      className="mr-2"
                     />
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                  </div>
-                </div>
+                    <span>{status.label}</span>
+                  </label>
+                ))}
+              </div>
 
-                {/* Status */}
-                <div className="mb-6">
-                  <h4 className="font-semibold mb-3">Availability</h4>
-                  {[
-                    { value: 'all', label: 'All Products' },
-                    { value: 'available', label: 'Available Now' },
-                    { value: 'preorder', label: 'Pre-Order' },
-                  ].map((status) => (
-                    <label key={status.value} className="flex items-center mb-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        checked={filters.status === status.value}
-                        onChange={() => setFilters({ ...filters, status: status.value })}
-                        className="mr-2"
-                      />
-                      <span>{status.label}</span>
-                    </label>
-                  ))}
-                </div>
+              {/* Category */}
+              <div className="mb-6">
+                <h4 className="font-semibold mb-3">Category</h4>
+                {categories.map((cat) => (
+                  <label key={cat} className="flex items-center mb-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      checked={filters.category === cat}
+                      onChange={() => setFilters({ ...filters, category: cat })}
+                      className="mr-2"
+                    />
+                    <span>{cat}</span>
+                  </label>
+                ))}
+              </div>
 
-                {/* Category */}
-                <div className="mb-6">
-                  <h4 className="font-semibold mb-3">Category</h4>
-                  {categories.map((cat) => (
-                    <label key={cat} className="flex items-center mb-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        checked={filters.category === cat}
-                        onChange={() => setFilters({ ...filters, category: cat })}
-                        className="mr-2"
-                      />
-                      <span>{cat}</span>
-                    </label>
-                  ))}
-                </div>
+              <button
+                onClick={() => setFilters({
+                  search: '', category: 'All', status: 'all',
+                  priceMin: 0, priceMax: Infinity, minRating: 0, sortBy: 'featured'
+                })}
+                className="w-full py-2 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium"
+              >
+                Reset Filters
+              </button>
+            </div>
+          </div>
 
-                <button
-                  onClick={() => setFilters({
-                    search: '', category: 'All', status: 'all',
-                    priceMin: 0, priceMax: Infinity, minRating: 0, sortBy: 'featured'
-                  })}
-                  className="w-full py-2 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium"
+          {/* Mobile Sidebar */}
+          <AnimatePresence>
+            {isSidebarOpen && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                />
+                <motion.div
+                  initial={{ x: -300 }}
+                  animate={{ x: 0 }}
+                  exit={{ x: -300 }}
+                  transition={{ type: 'tween' }}
+                  className="fixed left-0 top-0 bottom-0 w-80 bg-white z-50 overflow-y-auto lg:hidden"
                 >
-                  Reset Filters
-                </button>
-              </motion.div>
+                  <div className="p-6">
+                    <div className="flex justify-between items-center mb-6">
+                      <h3 className="font-bold text-xl">Filters</h3>
+                      <button onClick={() => setIsSidebarOpen(false)}>
+                        <X size={24} />
+                      </button>
+                    </div>
+
+                    {/* Same filters as desktop */}
+                    <div className="mb-6">
+                      <label className="block text-sm font-semibold mb-2">Search</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          placeholder="Search products..."
+                          value={filters.search}
+                          onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                          className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500"
+                        />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold mb-3">Availability</h4>
+                      {[
+                        { value: 'all', label: 'All Products' },
+                        { value: 'available', label: 'Available Now' },
+                        { value: 'preorder', label: 'Pre-Order' },
+                      ].map((status) => (
+                        <label key={status.value} className="flex items-center mb-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            checked={filters.status === status.value}
+                            onChange={() => setFilters({ ...filters, status: status.value })}
+                            className="mr-2"
+                          />
+                          <span>{status.label}</span>
+                        </label>
+                      ))}
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold mb-3">Category</h4>
+                      {categories.map((cat) => (
+                        <label key={cat} className="flex items-center mb-2 cursor-pointer">
+                          <input
+                            type="radio"
+                            checked={filters.category === cat}
+                            onChange={() => setFilters({ ...filters, category: cat })}
+                            className="mr-2"
+                          />
+                          <span>{cat}</span>
+                        </label>
+                      ))}
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setFilters({
+                          search: '', category: 'All', status: 'all',
+                          priceMin: 0, priceMax: Infinity, minRating: 0, sortBy: 'featured'
+                        });
+                        setIsSidebarOpen(false);
+                      }}
+                      className="w-full py-2 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium"
+                    >
+                      Reset Filters
+                    </button>
+                  </div>
+                </motion.div>
+              </>
             )}
           </AnimatePresence>
 
           {/* Products */}
-          <div className="flex-1">
+          <div>
             {/* Toolbar */}
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6 flex justify-between items-center">
               <div className="flex items-center gap-4">

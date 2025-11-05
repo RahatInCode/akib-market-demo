@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Heart, Eye, Star, Clock, Check } from 'lucide-react';
 

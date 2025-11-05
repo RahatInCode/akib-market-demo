@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Upload, Plus, X, Check, Package, DollarSign, Tag, Layers } from 'lucide-react';
 
 const AddProduct = () => {

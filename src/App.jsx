@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -12,9 +12,11 @@ import Signup from './pages/Signup';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import AddProduct from './pages/AddProduct';
+import Wishlist from './pages/Wishlist';
 
 const App = () => {
   const [cart, setCart] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -49,6 +51,16 @@ const App = () => {
     setCart([]);
   };
 
+  const addToWishlist = (product) => {
+    if (!wishlist.find(item => item.id === product.id)) {
+      setWishlist([...wishlist, product]);
+    }
+  };
+
+  const removeFromWishlist = (productId) => {
+    setWishlist(wishlist.filter(item => item.id !== productId));
+  };
+
   const handleLogin = (userData) => {
     setIsLoggedIn(true);
     setUser(userData);
@@ -64,19 +76,27 @@ const App = () => {
       <div className="min-h-screen flex flex-col">
         <Navbar 
           cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
+          wishlistCount={wishlist.length}
           isLoggedIn={isLoggedIn}
           user={user}
           onLogout={handleLogout}
         />
         <main className="grow">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<ProductsPage addToCart={addToCart} />} />
-            <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} />} />
+            <Route path="/" element={<Home addToWishlist={addToWishlist} />} />
+            <Route path="/products" element={<ProductsPage addToCart={addToCart} addToWishlist={addToWishlist} />} />
+            <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} addToWishlist={addToWishlist} />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/signup" element={<Signup onSignup={handleLogin} />} />
+            <Route path="/wishlist" element={
+              <Wishlist 
+                wishlist={wishlist}
+                removeFromWishlist={removeFromWishlist}
+                addToCart={addToCart}
+              />
+            } />
             <Route path="/cart" element={
               <Cart 
                 cart={cart}

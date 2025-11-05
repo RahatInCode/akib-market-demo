@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { Mail, Lock, Eye, EyeOff, User, Phone, UserPlus, Check } from 'lucide-react';
 
 const Signup = ({ onSignup }) => {
