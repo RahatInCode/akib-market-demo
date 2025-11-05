@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, X, Grid, List, ArrowUpDown, Package, Check, Clock } from 'lucide-react';
+import { Search, Filter, X, Grid, List, Package, Check, Clock } from 'lucide-react';
 import { mockProducts } from '../data/mockProducts';
 import ProductCard from '../components/ProductCard';
 import QuickViewModal from '../components/QuickViewModal';
 
-const ProductsPage = ({ addToCart }) => {
+const ProductsPage = ({ addToCart, addToWishlist }) => {
   const [filters, setFilters] = useState({
     search: '',
     category: 'All',
@@ -19,7 +19,6 @@ const ProductsPage = ({ addToCart }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Close sidebar when clicking outside on mobile
   useEffect(() => {
     if (isSidebarOpen) {
       document.body.style.overflow = 'hidden';
@@ -82,7 +81,6 @@ const ProductsPage = ({ addToCart }) => {
           {/* Desktop Sidebar */}
           <div className="hidden lg:block">
             <div className="sticky top-24 bg-white rounded-lg shadow-sm p-6 max-h-[calc(100vh-120px)] overflow-y-auto">
-              {/* Search */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold mb-2">Search</label>
                 <div className="relative">
@@ -97,7 +95,6 @@ const ProductsPage = ({ addToCart }) => {
                 </div>
               </div>
 
-              {/* Status */}
               <div className="mb-6">
                 <h4 className="font-semibold mb-3">Availability</h4>
                 {[
@@ -117,7 +114,6 @@ const ProductsPage = ({ addToCart }) => {
                 ))}
               </div>
 
-              {/* Category */}
               <div className="mb-6">
                 <h4 className="font-semibold mb-3">Category</h4>
                 {categories.map((cat) => (
@@ -166,12 +162,9 @@ const ProductsPage = ({ addToCart }) => {
                   <div className="p-6">
                     <div className="flex justify-between items-center mb-6">
                       <h3 className="font-bold text-xl">Filters</h3>
-                      <button onClick={() => setIsSidebarOpen(false)}>
-                        <X size={24} />
-                      </button>
+                      <button onClick={() => setIsSidebarOpen(false)}><X size={24} /></button>
                     </div>
 
-                    {/* Same filters as desktop */}
                     <div className="mb-6">
                       <label className="block text-sm font-semibold mb-2">Search</label>
                       <div className="relative">
@@ -240,7 +233,6 @@ const ProductsPage = ({ addToCart }) => {
 
           {/* Products */}
           <div>
-            {/* Toolbar */}
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6 flex justify-between items-center">
               <div className="flex items-center gap-4">
                 <button
@@ -285,7 +277,6 @@ const ProductsPage = ({ addToCart }) => {
               </div>
             </div>
 
-            {/* Available Products */}
             {(filters.status === 'all' || filters.status === 'available') && availableProducts.length > 0 && (
               <div className="mb-12">
                 <div className="flex items-center gap-3 mb-6">
@@ -304,13 +295,13 @@ const ProductsPage = ({ addToCart }) => {
                       product={product}
                       onQuickView={setSelectedProduct}
                       onAddToCart={addToCart}
+                      onAddToWishlist={addToWishlist}
                     />
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Pre-Order Products */}
             {(filters.status === 'all' || filters.status === 'preorder') && preorderProducts.length > 0 && (
               <div>
                 <div className="flex items-center gap-3 mb-6">
@@ -329,6 +320,7 @@ const ProductsPage = ({ addToCart }) => {
                       product={product}
                       onQuickView={setSelectedProduct}
                       onAddToCart={addToCart}
+                      onAddToWishlist={addToWishlist}
                     />
                   ))}
                 </div>

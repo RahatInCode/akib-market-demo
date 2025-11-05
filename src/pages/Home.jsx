@@ -9,13 +9,13 @@ import QuickViewModal from '../components/QuickViewModal';
 import { mockProducts } from '../data/mockProducts';
 import { Star, MapPin, Phone, ArrowRight } from 'lucide-react';
 
-const Home = () => {
+const Home = ({ addToWishlist }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const featuredProducts = mockProducts.filter(p => p.status === 'available').slice(0, 6);
 
   const handleAddToCart = () => {
-    // Mock function
+    // Mock function - will be handled by parent
   };
 
   const testimonials = [
@@ -95,6 +95,7 @@ const Home = () => {
                     product={product}
                     onQuickView={setSelectedProduct}
                     onAddToCart={handleAddToCart}
+                    onAddToWishlist={addToWishlist}
                   />
                 ))}
               </div>
@@ -140,6 +141,7 @@ const Home = () => {
                     product={product}
                     onQuickView={setSelectedProduct}
                     onAddToCart={handleAddToCart}
+                    onAddToWishlist={addToWishlist}
                   />
                 ))}
               </div>
@@ -199,6 +201,7 @@ const Home = () => {
                     product={product}
                     onQuickView={setSelectedProduct}
                     onAddToCart={handleAddToCart}
+                    onAddToWishlist={addToWishlist}
                   />
                 ))}
               </div>
@@ -244,6 +247,7 @@ const Home = () => {
                     product={product}
                     onQuickView={setSelectedProduct}
                     onAddToCart={handleAddToCart}
+                    onAddToWishlist={addToWishlist}
                   />
                 ))}
               </div>
@@ -259,7 +263,7 @@ const Home = () => {
         </div>
       </SectionWrapper>
 
-      {/* Featured Products Section (NEW) */}
+      {/* Featured Products Section */}
       <SectionWrapper className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -295,6 +299,7 @@ const Home = () => {
                 product={product}
                 onQuickView={setSelectedProduct}
                 onAddToCart={handleAddToCart}
+                onAddToWishlist={addToWishlist}
               />
             ))}
           </div>
@@ -313,7 +318,6 @@ const Home = () => {
         </div>
       </SectionWrapper>
 
-      {/* Video Gallery */}
       <VideoGallery />
 
       {/* Testimonials */}

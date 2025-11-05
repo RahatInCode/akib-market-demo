@@ -122,7 +122,7 @@ const About = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="https://images.unsplash.com/photo-1556912167-f556f1f39faa?w=600&h=400&fit=crop"
+                src="https://images.unsplash.com/photo-1559537696-0da4f948c83f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=881"
                 alt="Showroom"
                 className="rounded-lg shadow-lg"
               />

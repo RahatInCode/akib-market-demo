@@ -17,12 +17,13 @@ import {
   Plus
 } from 'lucide-react';
 
-const ProductDetails = ({ addToCart }) => {
+const ProductDetails = ({ addToCart, addToWishlist }) => {
   const { id } = useParams();
   const product = mockProducts.find(p => p.id === parseInt(id));
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
   if (!product) {
     return (
@@ -42,6 +43,13 @@ const ProductDetails = ({ addToCart }) => {
   const relatedProducts = mockProducts
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
+
+  const handleAddToWishlist = () => {
+    setIsWishlisted(!isWishlisted);
+    if (addToWishlist && !isWishlisted) {
+      addToWishlist(product);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -228,9 +236,19 @@ const ProductDetails = ({ addToCart }) => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="p-4 border-2 border-gray-300 rounded-lg hover:border-red-500 hover:bg-red-50 transition-colors"
+                  onClick={handleAddToWishlist}
+                  className={`p-4 border-2 rounded-lg transition-colors ${
+                    isWishlisted
+                      ? 'border-red-500 bg-red-50'
+                      : 'border-gray-300 hover:border-red-500 hover:bg-red-50'
+                  }`}
                 >
-                  <Heart size={24} className="text-gray-700" />
+                  <Heart 
+                    size={24} 
+                    className={`transition-colors ${
+                      isWishlisted ? 'text-red-500 fill-red-500' : 'text-gray-700'
+                    }`}
+                  />
                 </motion.button>
               </div>
 
@@ -287,7 +305,7 @@ const ProductDetails = ({ addToCart }) => {
             <div className="grid md:grid-cols-2 gap-4">
               {product.features.map((feature, index) => (
                 <div key={index} className="flex items-start space-x-3">
-                  <Check className="text-emerald-600 flex-0 mt-1" size={20} />
+                  <Check className="text-emerald-600 shrink-0 mt-1" size={20} />
                   <span className="text-gray-700">{feature}</span>
                 </div>
               ))}
