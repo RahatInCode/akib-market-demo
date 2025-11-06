@@ -48,9 +48,19 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero */}
-      <div className="relative bg-linear-to-r from-emerald-600 to-emerald-800 text-white py-32 mt-16">
-        <div className="container mx-auto px-4 text-center">
+      {/* Hero with Furniture Background */}
+      <div className="relative text-white py-32 mt-16 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=1920&h=600&fit=crop)',
+          }}
+        />
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -62,7 +72,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-emerald-100 max-w-3xl mx-auto"
+            className="text-xl text-gray-200 max-w-3xl mx-auto"
           >
             Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </motion.p>

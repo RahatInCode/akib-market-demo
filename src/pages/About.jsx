@@ -59,9 +59,19 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero */}
-      <div className="relative bg-linear-to-r from-emerald-600 to-emerald-800 text-white py-32 mt-16">
-        <div className="container mx-auto px-4 text-center">
+      {/* Hero with Furniture Background */}
+      <div className="relative text-white py-32 mt-16 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&h=600&fit=crop)',
+          }}
+        />
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,7 +83,7 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-emerald-100 max-w-3xl mx-auto"
+            className="text-xl text-gray-200 max-w-3xl mx-auto"
           >
             Bringing world-class furniture to Bangladesh since 2009. Your trusted partner for premium imported furniture.
           </motion.p>
@@ -122,7 +132,7 @@ const About = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="https://images.unsplash.com/photo-1559537696-0da4f948c83f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=881"
+                src="https://images.unsplash.com/photo-1556912167-f556f1f39faa?w=600&h=400&fit=crop"
                 alt="Showroom"
                 className="rounded-lg shadow-lg"
               />
