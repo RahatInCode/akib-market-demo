@@ -1,4 +1,5 @@
 export const mockProducts = [
+  // Available Products
   {
     id: 1,
     name: 'Scandinavian Lounge Chair',
@@ -21,7 +22,7 @@ export const mockProducts = [
     dimensions: '85 x 90 x 95 cm',
     weight: '25 kg',
     color: 'Natural Oak',
-    description: 'Experience the perfect blend of Scandinavian minimalism and comfort with our premium lounge chair. Crafted from sustainable oak wood and upholstered in high-quality fabric, this chair is designed to be the centerpiece of your living room.',
+    description: 'Premium Scandinavian design lounge chair with ergonomic support and timeless elegance.',
     longDescription: 'Our Scandinavian Lounge Chair represents the pinnacle of Nordic design philosophy - where form meets function in perfect harmony. Each piece is carefully constructed using sustainably sourced oak wood, ensuring both environmental responsibility and lasting durability. The ergonomic design provides exceptional lumbar support, while the premium fabric upholstery offers a soft, inviting touch. Perfect for reading, relaxing, or entertaining guests.',
     features: [
       'Premium solid oak wood frame',
