@@ -89,7 +89,7 @@ const Navbar = ({ cartCount, isLoggedIn, user, onLogout, wishlistCount }) => {
                 whileHover={{ scale: 1.05 }}
                 className="text-2xl font-bold text-gray-800 cursor-pointer"
               >
-                <span className="text-emerald-600">Akib</span> Market
+                <span className="text-emerald-600">Luxe</span> Furniture
               </motion.div>
             </Link>
 
