@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import {
   Search,
   ShoppingCart,
@@ -8,14 +7,12 @@ import {
   Eye,
   Filter,
   X,
-  ChevronDown,
   Grid,
   List,
   Star,
   ArrowUpDown,
   Clock,
   Check,
-  TrendingUp,
   Package,
 } from 'lucide-react';
 
@@ -283,17 +280,20 @@ const staggerContainer = {
   },
 };
 
-// Products Hero Section
+// Products Hero Section with Furniture Background
 const ProductsHero = () => {
   return (
-    <div className="relative  from-emerald-600 to-emerald-800 text-white py-20 mt-16">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1920&h=400&fit=crop)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }} />
-      </div>
+    <div className="relative text-white py-32 mt-16 overflow-hidden">
+      {/* Furniture Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1920&h=600&fit=crop)',
+        }}
+      />
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/60" />
+      
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -304,7 +304,7 @@ const ProductsHero = () => {
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
             Our Premium Collection
           </h1>
-          <p className="text-xl text-emerald-100 mb-8">
+          <p className="text-xl text-gray-200 mb-8">
             Discover luxury furniture imported from the world's finest manufacturers. 
             From ready stock to exclusive pre-orders.
           </p>
@@ -926,7 +926,6 @@ const ProductsPage = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [wishlist, setWishlist] = useState([]);
 
   // Filter and Sort Products
   const filteredProducts = mockProducts
@@ -970,10 +969,8 @@ const ProductsPage = () => {
   const preorderProducts = filteredProducts.filter((p) => p.status === 'preorder');
 
   const handleAddToWishlist = (product) => {
-    if (!wishlist.find((item) => item.id === product.id)) {
-      setWishlist([...wishlist, product]);
-      // You could add a toast notification here
-    }
+    console.log('Added to wishlist:', product.name);
+    // Wishlist functionality can be implemented here
   };
 
   return (
